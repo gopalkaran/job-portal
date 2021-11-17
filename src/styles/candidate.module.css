@@ -1,0 +1,44 @@
+.candidate{
+    height: 500px;
+    width: 350px;
+    margin: 2rem auto;
+    box-shadow: 0 0 10px 5px #aaa;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+}
+
+.candidateimg{
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.candidatename{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.btngroup{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    height: 10%;
+    align-items: center;
+}
+
+.btn{
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 0.2rem;
+    background-color: blueviolet;
+    color: white;
+    font-size: 1.1rem;
+}

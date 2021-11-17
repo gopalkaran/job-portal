@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import '../styles/home.css';
+import styles from '../styles/home.module.css';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -21,15 +21,15 @@ const Home = () => {
     }
     return (
         <div>
-        <input type="search" onChange={onChangeHandler} className="search-bar" />
-        <div className="grid-list">
+        <input type="search" onChange={onChangeHandler} className={styles.searchbar} />
+        <div className={styles.gridlist}>
             {
                 candidateList.map(candidate => {
                     return(
-                        <Link to={`/${candidate.id}`} key={candidate.id} className="candidate">
+                        <Link to={`/${candidate.id}`} key={candidate.id} className={styles.candidate}>
                         {/* <div > */}
-                            <img src={candidate.Image} alt={candidate.name} className="candidate-img"></img>
-                            <div className="candidate-name">{candidate.name}</div>
+                            <img src={candidate.Image} alt={candidate.name} className={styles.candidateimg}></img>
+                            <div className={styles.candidatename}>{candidate.name}</div>
                         {/* </div> */}
                         </Link>
                     ) 
