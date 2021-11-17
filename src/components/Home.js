@@ -9,15 +9,16 @@ const Home = () => {
         fetchItems();
     }, [])
 
-    const fetchItems =async () =>{
-        const data = await fetch('https://s3-ap-southeast-1.amazonaws.com/he-public-data/users49b8675.json');
-        const items = await data.json();
-        console.log(items);
-        const modifiedList = items.map(item => {
-            return {...item, visible : true, shortlisted : false}
-        })
-        setCandidateList(modifiedList);
-        localStorage.setItem('candidateList', JSON.stringify(modifiedList));
+    const fetchItems = () =>{
+        // const data = await fetch('https://s3-ap-southeast-1.amazonaws.com/he-public-data/users49b8675.json');
+        // const items = await data.json();
+        // console.log(items);
+        // const modifiedList = items.map(item => {
+        //     return {...item, visible : true, shortlisted : false}
+        // })
+        const candidateList = JSON.parse(localStorage.getItem("candidateList"))
+        setCandidateList(candidateList);
+        // localStorage.setItem('candidateList', JSON.stringify(modifiedList));
     }
     const onChangeHandler = (e) => {
         setSearchText(e.target.value);

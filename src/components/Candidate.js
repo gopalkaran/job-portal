@@ -8,9 +8,10 @@ const Candidate = ({match}) => {
         fetchItem();
     },[]);
 
-    const fetchItem =async () =>{
-        const fetchedItem = await fetch(`https://s3-ap-southeast-1.amazonaws.com/he-public-data/users49b8675.json`);
-        const candidateList = await fetchedItem.json();
+    const fetchItem = () =>{
+        // const fetchedItem = await fetch(`https://s3-ap-southeast-1.amazonaws.com/he-public-data/users49b8675.json`);
+        // const candidateList = await fetchedItem.json();
+        const candidateList = JSON.parse(localStorage.getItem("candidateList"))
         const [filteredCandidate] = candidateList.filter(candidate => {
             return candidate.id === match.params.id ? candidate : null;
         })
@@ -18,27 +19,29 @@ const Candidate = ({match}) => {
         setFilteredCandidate(filteredCandidate);
     }
 
-    const onClickHandler = (id) =>{
+    const onClickHandler = () =>{
+        // console.log(shortlisted)
         setShortlisted(shortlisted => !shortlisted);
-        console.log(id);
-        console.log(shortlisted)
+        // console.log(id);
+        // console.log(shortlisted)
+        // const candidateList = JSON.parse(localStorage.getItem("candidateList"))
+        // console.log(candidateList);
+        // const modifiedList = candidateList.map(candidate => {
+        //     return candidate.id === id ? {...candidate , shortlisted : !shortlisted} : candidate;
+        // })
+        // console.log(modifiedList)
+        // localStorage.setItem('candidateList', JSON.stringify(modifiedList));
+    }
+
+    useEffect(() => {
         const candidateList = JSON.parse(localStorage.getItem("candidateList"))
         console.log(candidateList);
         const modifiedList = candidateList.map(candidate => {
-            return candidate.id === id ? {...candidate , shortlisted : shortlisted} : candidate;
+            return {...candidate , shortlisted : shortlisted}
         })
         console.log(modifiedList)
         localStorage.setItem('candidateList', JSON.stringify(modifiedList));
-    }
-
-    // useEffect(() => {
-    //     const candidateList = JSON.parse(localStorage.getItem("candidateList"))
-    //     console.log(candidateList);
-    //     const modifiedList = candidateList.map(candidate => {
-    //         return {...candidate , shortlisted : shortlisted}
-    //     })
-    //     console.log(modifiedList)
-    // }, [shortlisted])
+    }, [shortlisted])
 
     return (
         <div className={styles.candidate}>
