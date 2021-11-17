@@ -35,7 +35,7 @@ const Shortlisted = () => {
             {
                 candidateList.map(candidate => {
                     return(
-                        candidate.shortlisted &&
+                        candidate.shortlisted && candidate.visible &&
                         <Link to={`/${candidate.id}`} key={candidate.id} className={styles.candidate}>
                         {/* <div > */}
                             <img src={candidate.Image} alt={candidate.name} className={styles.candidateimg}></img>
