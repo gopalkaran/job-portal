@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/rejected.module.css';
 
 const Rejected = () => {
-    const [rejectedList, setRejectedList] = useState([]);
+    // const [rejectedList, setRejectedList] = useState([]);
+    const [candidateList, setCandidateList] = useState([]);
     const [searchText, setSearchText] = useState('');
     useEffect(() => {
         const candidateList = JSON.parse(localStorage.getItem("candidateList"));
-        const rejectedList = candidateList.filter(candidate => {
-            return candidate.shortlisted ? null : candidate;
-        })
-        setRejectedList(rejectedList);
+        // const rejectedList = candidateList.filter(candidate => {
+        //     return candidate.shortlisted ? null : candidate;
+        // })
+        console.log(candidateList)
+        setCandidateList(candidateList);
     }, [])
 
     const onChangeHandler = (e) => {
@@ -19,7 +21,7 @@ const Rejected = () => {
 
     useEffect(() => {
         const searchData = searchText.toLowerCase();
-        setRejectedList(rejectedList => rejectedList.map((candidate) => {
+        setCandidateList(candidateList => candidateList.map((candidate) => {
           const name = candidate.name.toLowerCase();
           const flag = name.includes(searchData);
           return { ...candidate, visible: flag };
@@ -32,9 +34,9 @@ const Rejected = () => {
             <input type="search" onChange={onChangeHandler} className={styles.searchbar} />
             <div className={styles.gridlist}>
             {
-                rejectedList.map(candidate => {
+                candidateList.map(candidate => {
                     return(
-                        
+                        candidate.shortlisted ? null :
                         <Link to={`/${candidate.id}`} key={candidate.id} className={styles.candidate}>
                         {/* <div > */}
                             <img src={candidate.Image} alt={candidate.name} className={styles.candidateimg}></img>

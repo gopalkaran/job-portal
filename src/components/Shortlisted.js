@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/shortlisted.module.css';
 
 const Shortlisted = () => {
-    const [shortlistedList, setShortlistedList] = useState([]);
+    // const [shortlistedList, setShortlistedList] = useState([]);
+    const [candidateList, setCandidateList] = useState([]);
     const [searchText, setSearchText] = useState('');
     useEffect(() => {
         const candidateList = JSON.parse(localStorage.getItem("candidateList"));
-        const shortlistedList = candidateList.filter(candidate => {
-            return candidate.shortlisted ? candidate : null;
-        })
-       
-        setShortlistedList(shortlistedList);
+        // const shortlistedList = candidateList.filter(candidate => {
+        //     return candidate.shortlisted ? candidate : null;
+        // })
+        console.log(candidateList)
+        setCandidateList(candidateList);
     }, [])
 
     const onChangeHandler = (e) => {
@@ -20,7 +21,7 @@ const Shortlisted = () => {
 
     useEffect(() => {
         const searchData = searchText.toLowerCase();
-        setShortlistedList(shortlistedList => shortlistedList.map((candidate) => {
+        setCandidateList(candidateList => candidateList.map((candidate) => {
           const name = candidate.name.toLowerCase();
           const flag = name.includes(searchData);
           return { ...candidate, visible: flag };
@@ -32,9 +33,9 @@ const Shortlisted = () => {
             <input type="search" onChange={onChangeHandler} className={styles.searchbar} />
             <div className={styles.gridlist}>
             {
-                shortlistedList.map(candidate => {
+                candidateList.map(candidate => {
                     return(
-                        
+                        candidate.shortlisted &&
                         <Link to={`/${candidate.id}`} key={candidate.id} className={styles.candidate}>
                         {/* <div > */}
                             <img src={candidate.Image} alt={candidate.name} className={styles.candidateimg}></img>

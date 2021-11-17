@@ -4,6 +4,7 @@ import styles from '../styles/candidate.module.css';
 const Candidate = ({match}) => {
     const [filteredCandidate, setFilteredCandidate] = useState({});
     const [shortlisted, setShortlisted] = useState(false);
+    const [id, setId] = useState('');
     useEffect(() => {
         fetchItem();
     },[]);
@@ -19,10 +20,11 @@ const Candidate = ({match}) => {
         setFilteredCandidate(filteredCandidate);
     }
 
-    const onClickHandler = () =>{
+    const onClickHandler = (id) =>{
         // console.log(shortlisted)
         setShortlisted(shortlisted => !shortlisted);
-        // console.log(id);
+        console.log(id);
+        setId(id);
         // console.log(shortlisted)
         // const candidateList = JSON.parse(localStorage.getItem("candidateList"))
         // console.log(candidateList);
@@ -37,7 +39,7 @@ const Candidate = ({match}) => {
         const candidateList = JSON.parse(localStorage.getItem("candidateList"))
         console.log(candidateList);
         const modifiedList = candidateList.map(candidate => {
-            return {...candidate , shortlisted : shortlisted}
+            return candidate.id === id ? {...candidate , shortlisted : shortlisted} : candidate;
         })
         console.log(modifiedList)
         localStorage.setItem('candidateList', JSON.stringify(modifiedList));
