@@ -14,10 +14,10 @@ const Home = () => {
         const items = await data.json();
         console.log(items);
         const modifiedList = items.map(item => {
-            return {...item, visible : true}
+            return {...item, visible : true, shortlisted : false}
         })
         setCandidateList(modifiedList);
-        
+        localStorage.setItem('candidateList', JSON.stringify(modifiedList));
     }
     const onChangeHandler = (e) => {
         setSearchText(e.target.value);

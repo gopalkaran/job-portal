@@ -5,12 +5,13 @@ import Shortlisted from './components/Shortlisted';
 import Rejected from './components/Rejected';
 import Candidate from './components/Candidate';
 import Home from './components/Home';
+import Nav from './components/Nav';
 
 function App() {
   return (
     <div className="App">
       <Router>
-      {/* <Nav />       */}
+      <Nav />      
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/shortlisted' component={Shortlisted} />

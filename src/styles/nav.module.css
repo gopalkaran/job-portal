@@ -1,0 +1,16 @@
+nav{
+    display: flex;
+    justify-content: space-around;
+    background: blueviolet;
+    color: white;
+  }
+  
+  nav ul{
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+  
+  nav ul li{
+    cursor: pointer;
+  }
