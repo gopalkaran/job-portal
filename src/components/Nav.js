@@ -1,23 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/nav.module.css';
+import React from "react";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import styles from "../styles/nav.module.css";
 
 const Nav = () => {
-    const linkStyle = {
-       color : 'white',
-       textDecoration : 'none'
-    }
-    
-    return (
-        <nav>
-           <ul>
-               <li><Link style={linkStyle} to='/'>All Candidate</Link></li>
-               <li><Link style={linkStyle} to='/shortlisted'>Shortlisted</Link></li>
-               <li><Link style={linkStyle} to='/rejected'>Rejected</Link></li>
-           </ul>
-            
-        </nav>
-    )
+  return (
+    <nav className={styles.nav}>
+      <Link className={styles.navTitle} to="/">
+        Job Portal
+      </Link>
+      <ul>
+        <CustomLink to="/">All Candidate</CustomLink>
+        <CustomLink to="/shortlisted">Shortlisted</CustomLink>
+        <CustomLink to="/rejected">Rejected</CustomLink>
+      </ul>
+    </nav>
+  );
+};
+
+function CustomLink({ to, children, ...props }) {
+  const resolvedPath = useResolvedPath(to);
+  const isActive = useMatch({ path: resolvedPath.pathname, end: true });
+
+  return (
+    <li className={isActive ? styles.active : null}>
+      <Link to={to} {...props}>
+        {children}
+      </Link>
+    </li>
+  );
 }
 
-export default Nav
+export default Nav;

@@ -1,63 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import styles from '../styles/candidate.module.css';
+import React, { useEffect, useState } from "react";
+import styles from "../styles/candidate.module.css";
+import { useCandidateDispatch, useCandidateStore } from "../context";
+import { useParams } from "react-router-dom";
 
-const Candidate = ({match}) => {
-    const [filteredCandidate, setFilteredCandidate] = useState({});
-    const [shortlisted, setShortlisted] = useState(false);
-    const [id, setId] = useState('');
-    useEffect(() => {
-        fetchItem();
-    },[]);
+const Candidate = () => {
+  const [candidate, setCandidate] = useState({});
+  const list = useCandidateStore();
+  const params = useParams();
 
-    const fetchItem = () =>{
-        // const fetchedItem = await fetch(`https://s3-ap-southeast-1.amazonaws.com/he-public-data/users49b8675.json`);
-        // const candidateList = await fetchedItem.json();
-        const candidateList = JSON.parse(localStorage.getItem("candidateList"))
-        const [filteredCandidate] = candidateList.filter(candidate => {
-            return candidate.id === match.params.id ? candidate : null;
-        })
-        console.log(filteredCandidate);
-        setFilteredCandidate(filteredCandidate);
+  useEffect(() => {
+    if (params.id) {
+      const getCandidate = list.allCandidates?.find(
+        (candidate) => candidate?.id === params?.id
+      );
+      setCandidate(getCandidate);
     }
+  }, [params.id, list]);
 
-    const onClickHandler = (id) =>{
-        // console.log(shortlisted)
-        setShortlisted(shortlisted => !shortlisted);
-        console.log(id);
-        setId(id);
-        // console.log(shortlisted)
-        // const candidateList = JSON.parse(localStorage.getItem("candidateList"))
-        // console.log(candidateList);
-        // const modifiedList = candidateList.map(candidate => {
-        //     return candidate.id === id ? {...candidate , shortlisted : !shortlisted} : candidate;
-        // })
-        // console.log(modifiedList)
-        // localStorage.setItem('candidateList', JSON.stringify(modifiedList));
-    }
+  const dispatch = useCandidateDispatch();
 
-    useEffect(() => {
-        const candidateList = JSON.parse(localStorage.getItem("candidateList"))
-        console.log(candidateList);
-        const modifiedList = candidateList.map(candidate => {
-            return candidate.id === id ? {...candidate , shortlisted : shortlisted} : candidate;
-        })
-        console.log(modifiedList)
-        localStorage.setItem('candidateList', JSON.stringify(modifiedList));
-    }, [shortlisted])
-
-    return (
-        <div className={styles.candidate}>
-           <img src={filteredCandidate.Image} alt={filteredCandidate.name} className={styles.candidateimg} />
-           <div className={styles.candidatename}>{filteredCandidate.name}</div>
-           <div className={styles.btngroup}>
-               <button className={styles.btn} onClick={() => onClickHandler(filteredCandidate.id)}>{shortlisted? "Reject" : "Shortlist"}</button>
-               {/* <button className={styles.btn} onClick={onClickHandler}>Reject</button> */}
-           </div>          
+  return (
+    <div className={styles.candidate}>
+      <img
+        src={candidate?.Image}
+        alt={candidate?.name}
+        className={styles.candidateimg}
+      />
+      <div className={styles.candidatename}>{candidate?.name}</div>
+      {candidate.shortlisted ? (
+        <h3>Shortlisted</h3>
+      ) : candidate.rejected ? (
+        <h3>Rejected</h3>
+      ) : (
+        <div className={styles.btngroup}>
+          <button
+            className={styles.btn}
+            onClick={() =>
+              dispatch({
+                type: "SHORTLIST",
+                payload: { candidateId: candidate?.id }
+              })
+            }
+          >
+            Shortlist
+          </button>
+          <button
+            className={styles.btn}
+            onClick={() =>
+              dispatch({
+                type: "REJECT",
+                payload: { candidateId: candidate?.id }
+              })
+            }
+          >
+            Reject
+          </button>
         </div>
-    )
-}
+      )}
+    </div>
+  );
+};
 
-export default Candidate
-
-
-
+export default Candidate;
